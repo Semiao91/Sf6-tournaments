@@ -1,16 +1,16 @@
 "use client"
 import { useEffect, useState } from 'react';
+import { Button } from '../components/component/ui/button'
 import CardSf from '../components/component/cardComponent';
 
 interface Tournament {
-  id: number;
-  state: string
-  name: string;
-  participants_count: number,
-  tournament_type: string,
-  game_name: string,
-  start_at: string,
-  full_challonge_url: string;
+  status: string
+  title: string;
+  participants: string,
+  style: string,
+  game: string,
+  date: string,
+  time: string;
 }
 
 interface TournamentItem {
@@ -18,33 +18,45 @@ interface TournamentItem {
 }
 
 export default function Home(props: TournamentItem) {
+
+  // Test button to see if data is coming through /*
+  const getTournament = async () => {
+    const response = await fetch('/api/getTournament');
+    const data = await response.json();
+    console.log(data); //data is coming through
+  }
+
   const [saltMine, setSaltMine] = useState<Tournament[]>([]);
   useEffect(() => {
     async function loadData() {
-      const res = await fetch('/api/tournaments');
+      const res = await fetch('/api/getTournament');
       const data = await res.json();
-      console.log(data);
-      const tournamentInfo = data.map((item: TournamentItem) => ({
-        id: item.tournament.id,
-        state: item.tournament.state,
-        name: item.tournament.name,
-        participants_count: item.tournament.participants_count,
-        tournament_type: item.tournament.tournament_type,
-        game_name: item.tournament.game_name,
-        start_at: item.tournament.start_at,
-        full_challonge_url: item.tournament.full_challonge_url
+      console.log(data);  //data is coming through
+
+      const tournamentInfo = data.status.map((_: TournamentItem, i: number) => ({
+        status: data.status[i],
+        title: data.title[i + 1], //potential out of bounds error
+        participants: data.participants[i],
+        style: data.style[i],
+        game: data.game[i],
+        date: data.date[i],
+        time: data.time[i]
       }));
+
       setSaltMine(tournamentInfo);
     }
 
     loadData();
   }, []);
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {saltMine.map(tournament => (
-        <CardSf id={tournament.id} state={tournament.state} name={tournament.name} participants_count={tournament.participants_count} tournament_type={tournament.tournament_type} game_name={tournament.game_name} start_at={tournament.start_at} full_challonge_url={tournament.full_challonge_url} />
-      ))}
+    <main className=" flex items-center flex-col" style={{ backgroundImage: `url('/sfbg.webp')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
+      <Button onClick={getTournament}> TEST </Button>
+      <div className='grid min-h-screen grid-cols-4 gap-4 items-center justify-between p-24 '>
+        {saltMine.map(tournament => (
+          <CardSf status={tournament.status} title={tournament.title} participants={tournament.participants} style={tournament.style} game={tournament.game} date={tournament.date} time={tournament.time} />
+        ))}
+      </div>
     </main>
   );
 }

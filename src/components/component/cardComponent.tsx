@@ -1,35 +1,31 @@
-import { Badge } from "@/components/ui/badge";
-import { CardContent, Card } from "@/components/ui/card";
+import { Badge } from "@/components/component/ui/badge";
+import { CardContent, Card } from "@/components/component/ui/card";
 
 interface CardSfProps {
-  id: number;
-  state: string;
-  name: string;
-  participants_count: number;
-  tournament_type: string;
-  game_name: string;
-  start_at: string;
-  full_challonge_url: string;
+  status: string
+  title: string;
+  participants: string,
+  style: string,
+  game: string,
+  date: string,
+  time: string;
 }
 
 const CardSf: React.FC<CardSfProps> = ({
-  id,
-  state,
-  name,
-  participants_count,
-  tournament_type,
-  game_name,
-  start_at,
-  full_challonge_url,
+  status,
+  title,
+  participants,
+  style,
+  game,
+  date,
+  time
 }) => {
 
   const moment = require('moment-timezone');
-  const formattedDate = moment(start_at).format('ddd, MMM D, YYYY');
-  const timeInCET = moment.utc(start_at, "THH:mm:ss.SSSZ").tz("Europe/Berlin").format("hh:mm A [CET]");
-
+  const formattedDate = moment(date).format('ddd, MMM D, YYYY');
   return (
-    <a href={full_challonge_url} target="_blank" rel="noopener noreferrer" className="no-underline">
-      <Card key={id} className="w-[328px] bg-[#242424] text-white rounded-lg overflow-hidden">
+    <a target="_blank" rel="noopener noreferrer" className="no-underline">
+      <Card key={title} className="w-[328px] bg-[#242424] text-white rounded-lg overflow-hidden">
         <div className="relative">
           <img
             alt="Card image"
@@ -43,22 +39,22 @@ const CardSf: React.FC<CardSfProps> = ({
             width="328"
           />
           <Badge className="absolute top-2 right-2" variant="secondary">
-            {state}
+            {status}
           </Badge>
         </div>
         <CardContent className="p-4">
-          <h3 className="text-lg font-semibold">{name}</h3>
+          <h3 className="text-lg font-semibold">{title}</h3>
           <div className="flex items-center mt-4 space-x-2 text-sm">
             <UsersIcon className="text-[#71717A]" />
-            <span>{participants_count}</span>
+            <span>{participants}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
             <RepeatIcon className="text-[#71717A]" />
-            <span>{tournament_type}</span>
+            <span>{style}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
             <GamepadIcon className="text-[#71717A]" />
-            <span>{game_name}</span>
+            <span>{game}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
             <CalendarIcon className="text-[#71717A]" />
@@ -66,7 +62,7 @@ const CardSf: React.FC<CardSfProps> = ({
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
             <ClockIcon className="text-[#71717A]" />
-            <span>{timeInCET}</span>
+            <span>{time}</span>
           </div>
         </CardContent>
       </Card>
