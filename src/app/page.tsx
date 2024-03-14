@@ -5,6 +5,7 @@ import CardSf from '../components/component/cardComponent';
 
 interface Tournament {
   status: string
+  url: string,
   title: string;
   participants: string,
   style: string,
@@ -32,18 +33,7 @@ export default function Home(props: TournamentItem) {
       const res = await fetch('/api/getTournament');
       const data = await res.json();
       console.log(data);  //data is coming through
-
-      const tournamentInfo = data.status.map((_: TournamentItem, i: number) => ({
-        status: data.status[i],
-        title: data.title[i + 1], //potential out of bounds error
-        participants: data.participants[i],
-        style: data.style[i],
-        game: data.game[i],
-        date: data.date[i],
-        time: data.time[i]
-      }));
-
-      setSaltMine(tournamentInfo);
+      setSaltMine(data);
     }
 
     loadData();
@@ -54,7 +44,7 @@ export default function Home(props: TournamentItem) {
       <Button onClick={getTournament}> TEST </Button>
       <div className='grid min-h-screen grid-cols-4 gap-4 items-center justify-between p-24 '>
         {saltMine.map(tournament => (
-          <CardSf status={tournament.status} title={tournament.title} participants={tournament.participants} style={tournament.style} game={tournament.game} date={tournament.date} time={tournament.time} />
+          <CardSf status={tournament.status} url={tournament.url} title={tournament.title} participants={tournament.participants} style={tournament.style} game={tournament.game} date={tournament.date} time={tournament.time} />
         ))}
       </div>
     </main>

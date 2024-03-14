@@ -3,7 +3,8 @@ import { CardContent, Card } from "@/components/component/ui/card";
 
 interface CardSfProps {
   status: string
-  title: string;
+  url: string,
+  title: string,
   participants: string,
   style: string,
   game: string,
@@ -13,6 +14,7 @@ interface CardSfProps {
 
 const CardSf: React.FC<CardSfProps> = ({
   status,
+  url,
   title,
   participants,
   style,
@@ -24,7 +26,7 @@ const CardSf: React.FC<CardSfProps> = ({
   const moment = require('moment-timezone');
   const formattedDate = moment(date).format('ddd, MMM D, YYYY');
   return (
-    <a target="_blank" rel="noopener noreferrer" className="no-underline">
+    <a href={url} target="_blank" rel="noopener noreferrer" className="no-underline">
       <Card key={title} className="w-[328px] bg-[#242424] text-white rounded-lg overflow-hidden">
         <div className="relative">
           <img

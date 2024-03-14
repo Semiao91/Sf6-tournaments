@@ -1,6 +1,11 @@
-import puppeteer, {TimeoutError} from "puppeteer";
+import puppeteer from "puppeteer";
 
-const url = "https://challonge.com/communities/saltmineleague";
+const communities = ["C2C", "Saltmineleague", "WolfTV", "2BeCommUnity"];
+const communinittiesSub = ["saltyeu", "newchallenger"];
+const url = "https://challonge.com/communities/" + communities + "/tournaments";
+// const urlSub = "https://" + communinittiesSub[0] + ".challonge.com/";
+// const specialUrl =
+// "https://sparksgaming.challonge.com/users/untamedgamingfgc/tournaments";
 
 async function getTournamentData(req: any, res: any) {
   const browser = await puppeteer.launch({headless: false});
@@ -22,6 +27,13 @@ async function getTournamentData(req: any, res: any) {
   await Promise.race([clickFirstPopup, clickSecondPopup]);
 
   const data = await page.evaluate(() => {
+    const tournamentUrl = Array.from(
+      document.querySelectorAll(".tournament-block > a")
+    );
+    const urlFilter = tournamentUrl.map((url: any) => url.href);
+    const set = new Set(urlFilter);
+    const url = Array.from(set);
+
     const tournamentStatus = Array.from(
       document.querySelectorAll(".ribbon-tag")
     );
@@ -63,8 +75,21 @@ async function getTournamentData(req: any, res: any) {
       (time: any) => time.parentElement.textContent
     );
 
-    return {status, title, participants, style, game, date, time};
+    const tournaments = status.map((status, i) => ({
+      url: url[i],
+      status,
+      title: title[i + 1],
+      participants: participants[i],
+      style: style[i],
+      game: game[i],
+      date: date[i],
+      time: time[i],
+    }));
+    return tournaments.filter(
+      (tournament) => tournament.status !== "Completed"
+    );
   });
+
   await browser.close();
   return data;
 }
