@@ -1,13 +1,13 @@
 import puppeteer from "puppeteer";
 
 const communities = ["C2C", "Saltmineleague", "WolfTV", "2BeCommUnity"];
-const communinittiesSub = ["saltyeu", "newchallenger"];
-const url = "https://challonge.com/communities/" + communities + "/tournaments";
+// const communinittiesSub = ["saltyeu", "newchallenger"];
 // const urlSub = "https://" + communinittiesSub[0] + ".challonge.com/";
 // const specialUrl =
 // "https://sparksgaming.challonge.com/users/untamedgamingfgc/tournaments";
 
-async function getTournamentData(req: any, res: any) {
+async function getTournamentData(community: any) {
+  const url = `https://challonge.com/communities/${community}/tournaments`;
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
   await page.goto(url);
@@ -32,7 +32,11 @@ async function getTournamentData(req: any, res: any) {
     );
     const urlFilter = tournamentUrl.map((url: any) => url.href);
     const set = new Set(urlFilter);
-    const url = Array.from(set);
+    const urls = Array.from(set);
+
+    const tournamentCommunity = Array.from(
+      document.querySelectorAll(".name > .text")
+    );
 
     const tournamentStatus = Array.from(
       document.querySelectorAll(".ribbon-tag")
@@ -56,8 +60,11 @@ async function getTournamentData(req: any, res: any) {
       document.querySelectorAll(".item > .fa-clock")
     );
 
-    const status = tournamentStatus.map((status: any) => status.textContent);
-    const title = tournamentTitle.map((title: any) => title.textContent);
+    const status = tournamentStatus.map((status) => status.textContent);
+    const community = tournamentCommunity.map((community: any) =>
+      community.parentElement.textContent.trim()
+    );
+    const title = tournamentTitle.map((title) => title.textContent);
     const participants = tournamentParticipants.map(
       (participant: any) => participant.parentElement.textContent
     );
@@ -67,7 +74,6 @@ async function getTournamentData(req: any, res: any) {
     const game = tournamentGame.map(
       (game: any) => game.parentElement.textContent
     );
-
     const date = tournamentDate.map(
       (date: any) => date.parentElement.textContent
     );
@@ -75,9 +81,10 @@ async function getTournamentData(req: any, res: any) {
       (time: any) => time.parentElement.textContent
     );
 
-    const tournaments = status.map((status, i) => ({
-      url: url[i],
-      status,
+    const tournaments = urls.map((url, i) => ({
+      url,
+      community: community[i],
+      status: status[i],
       title: title[i + 1],
       participants: participants[i],
       style: style[i],
@@ -86,7 +93,9 @@ async function getTournamentData(req: any, res: any) {
       time: time[i],
     }));
     return tournaments.filter(
-      (tournament) => tournament.status !== "Completed"
+      (tournament) =>
+        tournament.status !== "Completed" &&
+        tournament.game === "Street Fighter 6"
     );
   });
 
@@ -96,8 +105,14 @@ async function getTournamentData(req: any, res: any) {
 
 export default async function handler(req: any, res: any) {
   try {
-    const data = await getTournamentData(req, res);
-    res.status(200).json(data);
+    const promises = communities.map((community) =>
+      getTournamentData(community)
+    );
+    const results = await Promise.allSettled(promises);
+    const data = results
+      .filter((result) => result.status === "fulfilled")
+      .map((result: any) => result.value);
+    res.status(200).json(data.flat());
   } catch (error) {
     console.error("Error fetching tournament data:", error);
     res.status(500).json({error: "Failed to fetch tournament data"});

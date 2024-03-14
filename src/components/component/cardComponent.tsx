@@ -4,6 +4,7 @@ import { CardContent, Card } from "@/components/component/ui/card";
 interface CardSfProps {
   status: string
   url: string,
+  community: string,
   title: string,
   participants: string,
   style: string,
@@ -15,6 +16,7 @@ interface CardSfProps {
 const CardSf: React.FC<CardSfProps> = ({
   status,
   url,
+  community,
   title,
   participants,
   style,
@@ -25,15 +27,31 @@ const CardSf: React.FC<CardSfProps> = ({
 
   const moment = require('moment-timezone');
   const formattedDate = moment(date).format('ddd, MMM D, YYYY');
+
+  const getImage = (url: string) => {
+    let lowerCaseUrl = url.toLowerCase();
+    switch (true) {
+      case lowerCaseUrl.includes('salt'):
+        return '/sml.png';
+      case lowerCaseUrl.includes('c2c'):
+        return '/c2c.png';
+      case lowerCaseUrl.includes('cls8'):
+        return '/2bcu.jpg';
+      case lowerCaseUrl.includes('wolf'):
+        return '/wolftv.png';
+      default:
+        return '/defaultImage.png';
+    }
+  };
   return (
     <a href={url} target="_blank" rel="noopener noreferrer" className="no-underline">
-      <Card key={title} className="w-[328px] bg-[#242424] text-white rounded-lg overflow-hidden">
+      <Card key={title} className="w-[328px] bg-[#0c0a09]  rounded-lg overflow-hidden">
         <div className="relative">
           <img
             alt="Card image"
             className="w-full opacity-60"
             height="100"
-            src="/sml_start2.png"
+            src={getImage(url)}
             style={{
               aspectRatio: "328/100",
               objectFit: "cover",
@@ -44,26 +62,26 @@ const CardSf: React.FC<CardSfProps> = ({
             {status}
           </Badge>
         </div>
-        <CardContent className="p-4">
-          <h3 className="text-lg font-semibold">{title}</h3>
+        <CardContent className="p-4 text-[#a59f9c]">
+          <h3 className="text-lg font-semibold h-[56px] text-[#fafaf9]">{title}</h3>
           <div className="flex items-center mt-4 space-x-2 text-sm">
-            <UsersIcon className="text-[#71717A]" />
+            <UsersIcon className="text-[#fafaf9]" />
             <span>{participants}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
-            <RepeatIcon className="text-[#71717A]" />
+            <RepeatIcon className="text-[#fafaf9]" />
             <span>{style}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
-            <GamepadIcon className="text-[#71717A]" />
+            <GamepadIcon className="text-[#fafaf9]" />
             <span>{game}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
-            <CalendarIcon className="text-[#71717A]" />
+            <CalendarIcon className="text-[#fafaf9]" />
             <span>{formattedDate}</span>
           </div>
           <div className="flex items-center mt-2 space-x-2 text-sm">
-            <ClockIcon className="text-[#71717A]" />
+            <ClockIcon className="text-[#fafaf9]" />
             <span>{time}</span>
           </div>
         </CardContent>
