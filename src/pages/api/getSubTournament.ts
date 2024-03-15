@@ -1,9 +1,9 @@
 import puppeteer from "puppeteer";
 
-const communities = ["C2C", "Saltmineleague", "WolfTV", "2BeCommUnity"];
+const communities = ["saltyeu", "newchallenger"];
 
 async function getTournamentData(community: any) {
-  const url = `https://challonge.com/communities/${community}/tournaments`;
+  const url = `https://${community}.challonge.com/tournaments`;
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
   await page.goto(url);
@@ -96,6 +96,8 @@ async function getTournamentData(community: any) {
   });
 
   await browser.close();
+  console.log(data);
+
   return data;
 }
 

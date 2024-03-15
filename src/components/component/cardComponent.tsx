@@ -1,7 +1,7 @@
 import { Badge } from "@/components/component/ui/badge";
 import { CardContent, Card } from "@/components/component/ui/card";
 
-interface CardSfProps {
+export interface CardSfProps {
   status: string
   url: string,
   community: string,
@@ -44,8 +44,8 @@ const CardSf: React.FC<CardSfProps> = ({
     }
   };
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="no-underline">
-      <Card key={title} className="w-[328px] bg-[#0c0a09]  rounded-lg overflow-hidden">
+    <a href={url} target="_blank" rel="noopener noreferrer" className="">
+      <Card key={title} className="w-[328px] bg-[#0c0a09] border-2 border-[#27272a]  rounded-lg overflow-hidden">
         <div className="relative">
           <img
             alt="Card image"
