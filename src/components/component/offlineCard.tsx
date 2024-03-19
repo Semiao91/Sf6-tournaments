@@ -14,6 +14,8 @@ const OfflineCard: React.FC<CardSfProps> = ({
     const getImage = (community: string) => {
 
         switch (true) {
+            case community === "saltyeu":
+                return '/salty.png';
             case community === "salt":
                 return '/sml.png';
             case community === "c2c":
@@ -22,8 +24,6 @@ const OfflineCard: React.FC<CardSfProps> = ({
                 return '/2bcu.jpg';
             case community === "wolf":
                 return '/wolftv.png';
-            case community === "salty":
-                return '/salty.png';
             case community === "new":
                 return '/new.png';
             default:
@@ -33,6 +33,8 @@ const OfflineCard: React.FC<CardSfProps> = ({
 
     const getUrl = (community: string) => {
         switch (true) {
+            case community === "saltyeu":
+                return 'https://saltyeu.challonge.com/';
             case community === "salt":
                 return "https://challonge.com/communities/saltmineleague";
             case community === "c2c":
@@ -41,8 +43,6 @@ const OfflineCard: React.FC<CardSfProps> = ({
                 return "https://challonge.com/communities/2BeCommUnity";
             case community === "wolf":
                 return "https://challonge.com/communities/WolfTV";
-            case community === "salty":
-                return 'https://saltyeu.challonge.com/';
             case community === "new":
                 return 'https://newchallenger.challonge.com/';
             default:
@@ -65,7 +65,7 @@ const OfflineCard: React.FC<CardSfProps> = ({
                         }}
                         width="328"
                     />
-                    <Badge className="absolute top-2 right-2 bg-red-300" variant="secondary">
+                    <Badge className="absolute top-2 right-2 bg-red-500" variant="secondary">
                         Offline
                     </Badge>
                 </div>

@@ -1,118 +1,69 @@
-import puppeteer from "puppeteer";
+import {NextApiRequest, NextApiResponse} from "next";
 
-const communities = ["saltyeu", "newchallenger"];
-
-async function getTournamentData(community: any) {
-  const url = `https://${community}.challonge.com/tournaments`;
-  const browser = await puppeteer.launch({headless: false});
-  const page = await browser.newPage();
-  await page.goto(url);
-
-  const clickFirstPopup = page
-    .waitForSelector("button[onclick=\"__npcmp('save')\"]", {timeout: 5000})
-    .then(() => page.click("button[onclick=\"__npcmp('save')\"]"))
-    .catch((e) => console.log("First popup not found"));
-
-  const clickSecondPopup = page
-    .waitForSelector(".fc-cta-consent", {
-      timeout: 5000,
-    })
-    .then(() => page.click(".fc-cta-consent"))
-    .catch((e) => console.log("Second popup not found"));
-
-  await Promise.race([clickFirstPopup, clickSecondPopup]);
-
-  const data = await page.evaluate(() => {
-    const tournamentUrl = Array.from(
-      document.querySelectorAll(".tournament-block > a")
-    );
-    const urlFilter = tournamentUrl.map((url: any) => url.href);
-    const set = new Set(urlFilter);
-    const urls = Array.from(set);
-
-    const tournamentCommunity = Array.from(
-      document.querySelectorAll(".name > .text")
-    );
-
-    const tournamentStatus = Array.from(
-      document.querySelectorAll(".ribbon-tag")
-    );
-    const tournamentTitle = Array.from(
-      document.querySelectorAll(".details > h3")
-    );
-    const tournamentParticipants = Array.from(
-      document.querySelectorAll(".item > .fa-user")
-    );
-    const tournamentStyle = Array.from(
-      document.querySelectorAll(".item > .fa-trophy")
-    );
-    const tournamentGame = Array.from(
-      document.querySelectorAll(".item > .fa-gamepad")
-    );
-    const tournamentDate = Array.from(
-      document.querySelectorAll(".item > .fa-calendar")
-    );
-    const tournamentTime = Array.from(
-      document.querySelectorAll(".item > .fa-clock")
-    );
-
-    const status = tournamentStatus.map((status) => status.textContent);
-    const community = tournamentCommunity.map((community: any) =>
-      community.parentElement.textContent.trim()
-    );
-    const title = tournamentTitle.map((title) => title.textContent);
-    const participants = tournamentParticipants.map(
-      (participant: any) => participant.parentElement.textContent
-    );
-    const style = tournamentStyle.map(
-      (style: any) => style.parentElement.textContent
-    );
-    const game = tournamentGame.map(
-      (game: any) => game.parentElement.textContent
-    );
-    const date = tournamentDate.map(
-      (date: any) => date.parentElement.textContent
-    );
-    const time = tournamentTime.map(
-      (time: any) => time.parentElement.textContent
-    );
-
-    const tournaments = urls.map((url, i) => ({
-      url,
-      community: community[i],
-      status: status[i],
-      title: title[i + 1],
-      participants: participants[i],
-      style: style[i],
-      game: game[i],
-      date: date[i],
-      time: time[i],
-    }));
-    return tournaments.filter(
-      (tournament) =>
-        tournament.status !== "Completed" &&
-        tournament.game === "Street Fighter 6"
-    );
-  });
-
-  await browser.close();
-  console.log(data);
-
-  return data;
-}
-
-export default async function handler(req: any, res: any) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
-    const promises = communities.map((community) =>
-      getTournamentData(community)
+    const auth = Buffer.from(
+      `${process.env.API_USER}:${process.env.API_KEY}`
+    ).toString("base64");
+
+    const communities = ["saltyeu", "newchallenger"];
+    const moment = require("moment-timezone");
+
+    const fetchPromises = communities.map(async (community) => {
+      const url = `https://api.challonge.com/v1/tournaments.json?state=pending&subdomain=${community}`;
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Basic ${auth}`,
+        },
+      });
+
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch the tournaments: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+
+      const tournaments = data.map((item: any) => {
+        const {tournament} = item;
+        const dateTime = new Date(tournament.start_at);
+        const formattedTime =
+          moment(tournament.start_at, "HH:mm:ss").format("h:mm A") + " CET";
+        return {
+          status: tournament.state,
+          community: tournament.subdomain,
+          url: tournament.full_challonge_url,
+          title: tournament.name,
+          participants:
+            tournament.participants_count.toString() + " Participants",
+          style:
+            tournament.tournament_type.charAt(0).toUpperCase() +
+            tournament.tournament_type.slice(1),
+          game: tournament.game_name,
+          date: dateTime.toDateString(),
+          time: formattedTime,
+        };
+      });
+      return tournaments;
+    });
+
+    const allTournaments = await Promise.all(fetchPromises);
+    const flattenedTournaments = allTournaments.flat();
+
+    const filteredTournaments = flattenedTournaments.filter(
+      (tournament: any) =>
+        tournament.status !== "Completed" &&
+        tournament.game === "Street Fighter 6" &&
+        tournament.status !== "group_stages_underway"
     );
-    const results = await Promise.allSettled(promises);
-    const data = results
-      .filter((result) => result.status === "fulfilled")
-      .map((result: any) => result.value);
-    res.status(200).json(data.flat());
+
+    res.status(200).json(filteredTournaments);
   } catch (error) {
-    console.error("Error fetching tournament data:", error);
-    res.status(500).json({error: "Failed to fetch tournament data"});
+    console.error(error);
+    res.status(500).json({message: "Server error"});
   }
 }

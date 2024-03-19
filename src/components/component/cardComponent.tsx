@@ -16,7 +16,6 @@ export interface CardSfProps {
 const CardSf: React.FC<CardSfProps> = ({
   status,
   url,
-  community,
   title,
   participants,
   style,
@@ -26,11 +25,15 @@ const CardSf: React.FC<CardSfProps> = ({
 }) => {
 
   const moment = require('moment-timezone');
-  const formattedDate = moment(date).format('ddd, MMM D, YYYY');
+  const dateObj = new Date(date);
+  const isoDate = dateObj.toISOString().split('T')[0];
+  const formattedDate = moment(isoDate).format('ddd, MMM D, YYYY');
 
   const getImage = (url: string) => {
     let lowerCaseUrl = url.toLowerCase();
     switch (true) {
+      case lowerCaseUrl.includes('salty'):
+        return '/salty.png';
       case lowerCaseUrl.includes('salt'):
         return '/sml.png';
       case lowerCaseUrl.includes('c2c'):
@@ -39,12 +42,14 @@ const CardSf: React.FC<CardSfProps> = ({
         return '/2bcu.jpg';
       case lowerCaseUrl.includes('wolf'):
         return '/wolftv.png';
+      case lowerCaseUrl.includes('newchallenger'):
+        return '/new.png';
       default:
         return '/defaultImage.png';
     }
   };
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="">
+    <a href={url} key={url} target="_blank" rel="noopener noreferrer" className="">
       <Card key={title} className="w-[328px] bg-[#0c0a09] border-2 border-[#27272a]  rounded-lg overflow-hidden">
         <div className="relative">
           <img
@@ -62,7 +67,7 @@ const CardSf: React.FC<CardSfProps> = ({
             {status}
           </Badge>
         </div>
-        <CardContent className="p-4 text-[#a59f9c]">
+        <CardContent key={date} className="p-4 text-[#a59f9c]">
           <h3 className="text-lg font-semibold h-[56px] text-[#fafaf9]">{title}</h3>
           <div className="flex items-center mt-4 space-x-2 text-sm">
             <UsersIcon className="text-[#fafaf9]" />
