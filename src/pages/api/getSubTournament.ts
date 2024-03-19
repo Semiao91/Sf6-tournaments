@@ -1,6 +1,9 @@
 import {NextApiRequest, NextApiResponse} from "next";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async function getSubTournament(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const auth = Buffer.from(
       `${process.env.API_USER}:${process.env.API_KEY}`

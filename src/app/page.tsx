@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { Button } from '../components/component/ui/button'
 import CardSf from '../components/component/cardComponent';
 import { SkeletonCard } from '@/components/component/skeletonCard';
 import OfflineCard from '@/components/component/offlineCard';
@@ -18,11 +17,8 @@ interface Tournament {
   time: string;
 }
 
-interface TournamentItem {
-  tournament: Tournament;
-}
 
-export default function Home(props: TournamentItem) {
+export default function Home() {
   /*
     const getTournament = async () => {
       try {

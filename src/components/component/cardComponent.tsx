@@ -4,9 +4,9 @@ import Image from "next/image";
 
 export interface CardSfProps {
   status: string
-  url: string,
   community: string,
-  title: string,
+  url: string,
+  title: string;
   participants: string,
   style: string,
   game: string,
@@ -18,6 +18,7 @@ const CardSf: React.FC<CardSfProps> = ({
   status,
   url,
   title,
+  community,
   participants,
   style,
   game,
