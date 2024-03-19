@@ -1,6 +1,7 @@
 import { CardContent, Card } from "@/components/component/ui/card";
 import { CardSfProps } from './cardComponent';
 import { Badge } from "@/components/component/ui/badge";
+import Image from "next/image";
 
 interface OfflineCard {
     community: string,
@@ -54,7 +55,7 @@ const OfflineCard: React.FC<CardSfProps> = ({
         <a href={getUrl(community)} target="_blank" rel="noopener noreferrer" >
             <Card className="w-[328px] h-[354px] bg-[#0c0a09]  rounded-lg overflow-hidden border-2 border-[#27272a]">
                 <div className="relative">
-                    <img
+                    <Image
                         alt="Card image"
                         className="w-full opacity-60"
                         height="100"

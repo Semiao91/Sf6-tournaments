@@ -1,5 +1,6 @@
 import { Badge } from "@/components/component/ui/badge";
 import { CardContent, Card } from "@/components/component/ui/card";
+import Image from "next/image";
 
 export interface CardSfProps {
   status: string
@@ -26,8 +27,7 @@ const CardSf: React.FC<CardSfProps> = ({
 
   const moment = require('moment-timezone');
   const dateObj = new Date(date);
-  const isoDate = dateObj.toISOString().split('T')[0];
-  const formattedDate = moment(isoDate).format('ddd, MMM D, YYYY');
+  const formattedDate = moment(dateObj).format('ddd, MMM D, YYYY');
 
   const getImage = (url: string) => {
     let lowerCaseUrl = url.toLowerCase();
@@ -52,7 +52,7 @@ const CardSf: React.FC<CardSfProps> = ({
     <a href={url} key={url} target="_blank" rel="noopener noreferrer" className="">
       <Card key={title} className="w-[328px] bg-[#0c0a09] border-2 border-[#27272a]  rounded-lg overflow-hidden">
         <div className="relative">
-          <img
+          <Image
             alt="Card image"
             className="w-full opacity-60"
             height="100"

@@ -67,7 +67,7 @@ export default function Home(props: TournamentItem) {
         <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] md:block text-[#fafaf9] pb-4">Tournaments at a glance</h1>
         <span className='max-w-[750px] text-lg text-muted-foreground sm:text-xl'>SF6 Online tournaments for the EU region</span>
       </div>
-      <Image src='/eu.png' alt='sftourney' width={50} height={50} className='mb-4' />
+      <Image src='/eu.png' alt='sftourney' width={50} height={50} className='mb-4 w-auto h-auto rounded' />
       <div className='overflow-hidden rounded-[0.5rem] border-2 border-[#27272a] bg-dark shadow-md md:shadow-xl'>
         <div className='grid min-h-screen grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-14 items-center justify-between p-12 '>
           {subDomain.map(tournament => (<CardSf key={tournament.url} status={tournament.status} url={tournament.url} community={tournament.community} title={tournament.title} participants={tournament.participants} style={tournament.style} game={tournament.game} date={tournament.date} time={tournament.time} />))}

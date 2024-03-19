@@ -10,7 +10,8 @@ const Footer = () => {
                 </span>
                 <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
                     <li>
-                        <a href="https://github.com/Semiao91/Sf6-tournaments" className="hover:underline me-4 md:me-6">Github</a>
+                        <span>Suggestions or contributions are welcomed: </span>
+                        <a href="https://github.com/Semiao91/Sf6-tournaments" className="hover:underline me-4 md:me-6  text-green-100"> Github</a>
                     </li>
                 </ul>
             </div>
