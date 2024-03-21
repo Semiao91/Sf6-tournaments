@@ -58,7 +58,7 @@ export default async function getSubTournament(
     const flattenedTournaments = allTournaments.flat();
 
     const filteredTournaments = flattenedTournaments.filter(
-      (tournament: any) =>
+      (tournament) =>
         tournament.status !== "Completed" &&
         tournament.game === "Street Fighter 6" &&
         tournament.status !== "group_stages_underway"

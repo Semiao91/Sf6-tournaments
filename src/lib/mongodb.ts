@@ -1,35 +1,38 @@
-import {MongoClient} from "mongodb";
+import {MongoClient, Db} from "mongodb";
 
-const uri: String = process.env.MONGODB_URI!;
-const options = {
+const uri: string = process.env.MONGODB_URI!;
+const options: object = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 };
 
-let client;
+let client: MongoClient | undefined;
 let clientPromise: Promise<MongoClient>;
+let globalWithMongo = global as typeof globalThis & {
+  _mongoClientPromise: Promise<MongoClient>;
+};
 
 if (!process.env.MONGODB_URI) {
   throw new Error("Please add your Mongo URI to .env.local");
 }
 
 if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
+  if (!globalWithMongo._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    globalWithMongo._mongoClientPromise = client.connect();
   }
-  clientPromise = global._mongoClientPromise;
+  clientPromise = globalWithMongo._mongoClientPromise!;
 } else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  clientPromise = new MongoClient(uri, options).connect();
 }
 
-export async function connectToDatabase() {
-  if (!clientPromise) {
-    client = new MongoClient(uri, options);
-    clientPromise = client.connect();
+export async function connectToDatabase(): Promise<{
+  db: Db;
+  client: MongoClient;
+}> {
+  if (!client) {
+    client = await clientPromise;
   }
-  client = await clientPromise;
   const db = client.db("test");
   return {db, client};
 }
