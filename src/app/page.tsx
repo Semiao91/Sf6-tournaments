@@ -38,10 +38,13 @@ export default function Home() {
       setLoading(true);
       const res = await fetch('/api/getTournament');
       const data = await res.json();
+
       const res2 = await fetch('/api/getSubTournament');
       const data2 = await res2.json();
       setSubDomain(data2);
-      setSaltMine(data);
+      setSaltMine(data.data);
+
+
       setLoading(false);
     }
 
