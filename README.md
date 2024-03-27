@@ -6,7 +6,7 @@
 
 ## Features:
 
-![picture](https://imgur.com/a/ypoSbQn)
+![Street Fighter 6 Tournaments](https://i.imgur.com/DSytbWM.png)
 
 Comprehensive Listings: Access a curated list of upcoming and ongoing Street Fighter 6 tournaments specifically in the European region.
 
