@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SF 6 Tournys: European Street Fighter 6 Tournament Tracker
 
-## Getting Started
+### 
 
-First, run the development server:
+#### SF 6 Tournys is your go-to open-source tool for staying updated with the latest Street Fighter 6 tournaments across Europe. Designed with the community in mind, this project aggregates and displays tournament data, making it easily accessible for players, fans, and organizers alike.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![picture](https://imgur.com/a/ypoSbQn)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Comprehensive Listings: Access a curated list of upcoming and ongoing Street Fighter 6 tournaments specifically in the European region.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+At-a-Glance Information: Get key tournament details including dates, times, participant numbers, and links to brackets, all at a glance.
 
-## Learn More
+Real-Time Updates: Leveraging advanced web scraping techniques, the project ensures information is current, capturing live updates from prominent tournament platforms.
 
-To learn more about Next.js, take a look at the following resources:
+User-Friendly Interface: Designed for ease of use, enabling users to quickly find and view the tournaments that interest them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Community Focused: An open platform encouraging contributions and feedback from the Street Fighter community to continually enhance the project.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contribution:
+We welcome contributions from the community! Whether it's adding new features, improving the documentation, or reporting issues, your input helps make SF 6 Tournys better for everyone.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Dive into the vibrant European Street Fighter 6 scene with SF 6 Tournys. Stay ahead of the game, discover new tournaments, and connect with the community. Let the battles begin!
