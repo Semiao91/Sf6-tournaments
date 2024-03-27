@@ -4,6 +4,7 @@ import CardSf from '../components/component/cardComponent';
 import { SkeletonCard } from '@/components/component/skeletonCard';
 import OfflineCard from '@/components/component/offlineCard';
 import Image from 'next/image';
+import { Button } from '@/components/component/ui/button';
 
 interface Tournament {
   status: string
@@ -29,7 +30,7 @@ export default function Home() {
         console.error("Failed to fetch tournaments:", error);
       }
     };
-    */
+  */
   const [saltMine, setSaltMine] = useState<Tournament[]>([]);
   const [subDomain, setSubDomain] = useState<Tournament[]>([]);
   const [loadig, setLoading] = useState(true);
@@ -38,12 +39,13 @@ export default function Home() {
       setLoading(true);
       const res = await fetch('/api/getTournament');
       const data = await res.json();
+      console.log(data, "tournament data");
 
       const res2 = await fetch('/api/getSubTournament');
       const data2 = await res2.json();
+      console.log(data2, "sub data");
       setSubDomain(data2);
       setSaltMine(data.data);
-
 
       setLoading(false);
     }
@@ -51,18 +53,17 @@ export default function Home() {
     loadData();
   }, []);
 
-  const communities = ["salt", "c2c", "cls8", "wolf"];
+  const communitiesTotal = ["C2C", "Saltmineleague", "WolfTV", "2BeCommUnity"];
+  const communities = saltMine.map(tournament => tournament.community);
   const subCommunities = ["saltyeu", "newchallenger"];
-  const missingCommunities = communities.filter(community =>
-    !saltMine.some(tournament => tournament.url.toLowerCase().includes(community))
-  );
+  const missingCommunities = communitiesTotal.filter(community => !communities.includes(community));
   const missingSubCommunities = subCommunities.filter(community => !subDomain.some(tournament => tournament.url.toLowerCase().includes(community)));
   const allMissingCommunities = [...missingCommunities, ...missingSubCommunities];
 
   return (
     <main className="flex items-center flex-col bg-[#0c0a09]">
-      {/*<Button onClick={getTournament} className=''> TEST </Button> */}
       <div className='text-center py-10'>
+        {/*<Button onClick={getTournament} className=''> TEST </Button>*/}
         <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] md:block text-[#fafaf9] pb-4">Tournaments at a glance</h1>
         <span className='max-w-[750px] text-lg text-muted-foreground sm:text-xl'>SF6 Online tournaments for the EU region</span>
       </div>

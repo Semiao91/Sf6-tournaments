@@ -30,23 +30,23 @@ const CardSf: React.FC<CardSfProps> = ({
   const dateObj = new Date(date);
   const formattedDate = moment(dateObj).format('ddd, MMM D, YYYY');
 
-  const getImage = (url: string) => {
-    let lowerCaseUrl = url.toLowerCase();
+  const getImage = (community: string) => {
+
     switch (true) {
-      case lowerCaseUrl.includes('salty'):
+      case community === 'Saltmineleague':
         return '/salty.png';
-      case lowerCaseUrl.includes('salt'):
+      case community === 'saltyeu':
         return '/sml.png';
-      case lowerCaseUrl.includes('c2c'):
+      case community === 'C2C':
         return '/c2c.png';
-      case lowerCaseUrl.includes('cls8'):
+      case community === '2BeCommUnity':
         return '/2bcu.jpg';
-      case lowerCaseUrl.includes('wolf'):
+      case community === 'WolfTV':
         return '/wolftv.png';
-      case lowerCaseUrl.includes('newchallenger'):
+      case community === 'newchallenger':
         return '/new.png';
       default:
-        return '/defaultImage.png';
+        return '/new.png';
     }
   };
   return (
@@ -57,7 +57,7 @@ const CardSf: React.FC<CardSfProps> = ({
             alt="Card image"
             className="w-full opacity-60"
             height="100"
-            src={getImage(url)}
+            src={getImage(community)}
             style={{
               aspectRatio: "328/100",
               objectFit: "cover",

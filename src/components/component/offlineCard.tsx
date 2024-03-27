@@ -17,15 +17,15 @@ const OfflineCard: React.FC<CardSfProps> = ({
         switch (true) {
             case community === "saltyeu":
                 return '/salty.png';
-            case community === "salt":
+            case community === "Saltmineleague":
                 return '/sml.png';
-            case community === "c2c":
+            case community === "C2C":
                 return '/c2c.png';
-            case community === "cls8":
+            case community === "2BeCommUnity":
                 return '/2bcu.jpg';
-            case community === "wolf":
+            case community === "WolfTV":
                 return '/wolftv.png';
-            case community === "new":
+            case community === "newchallenger":
                 return '/new.png';
             default:
                 return '/sfbg.webp';
@@ -36,15 +36,15 @@ const OfflineCard: React.FC<CardSfProps> = ({
         switch (true) {
             case community === "saltyeu":
                 return 'https://saltyeu.challonge.com/';
-            case community === "salt":
+            case community === "Saltmineleague":
                 return "https://challonge.com/communities/saltmineleague";
-            case community === "c2c":
+            case community === "C2C":
                 return "https://challonge.com/communities/C2C";
-            case community === "cls8":
+            case community === "2BeCommUnity":
                 return "https://challonge.com/communities/2BeCommUnity";
-            case community === "wolf":
+            case community === "WolfTV":
                 return "https://challonge.com/communities/WolfTV";
-            case community === "new":
+            case community === "newchallenger":
                 return 'https://newchallenger.challonge.com/';
             default:
                 return "https://challonge.com/dashboard";

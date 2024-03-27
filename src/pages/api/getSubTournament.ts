@@ -38,7 +38,7 @@ export default async function getSubTournament(
           moment(tournament.start_at, "HH:mm:ss").format("h:mm A") + " CET";
         return {
           status: tournament.state,
-          community: tournament.subdomain,
+          community: community,
           url: tournament.full_challonge_url,
           title: tournament.name,
           participants:
