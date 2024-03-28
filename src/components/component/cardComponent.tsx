@@ -33,10 +33,10 @@ const CardSf: React.FC<CardSfProps> = ({
   const getImage = (community: string) => {
 
     switch (true) {
-      case community === 'Saltmineleague':
-        return '/salty.png';
-      case community === 'saltyeu':
+      case community === 'Saltmine League':
         return '/sml.png';
+      case community === 'saltyeu':
+        return '/salty.png';
       case community === 'C2C':
         return '/c2c.png';
       case community === '2BeCommUnity':

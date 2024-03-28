@@ -53,7 +53,7 @@ export default function Home() {
     loadData();
   }, []);
 
-  const communitiesTotal = ["C2C", "Saltmineleague", "WolfTV", "2BeCommUnity"];
+  const communitiesTotal = ["C2C", "Saltmine League", "WolfTV", "2BeCommUnity"];
   const communities = saltMine.map(tournament => tournament.community);
   const subCommunities = ["saltyeu", "newchallenger"];
   const missingCommunities = communitiesTotal.filter(community => !communities.includes(community));
