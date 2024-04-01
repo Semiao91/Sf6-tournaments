@@ -6,6 +6,7 @@ import OfflineCard from '@/components/component/offlineCard';
 import Image from 'next/image';
 import { Button } from '@/components/component/ui/button';
 
+
 interface Tournament {
   status: string
   community: string,
