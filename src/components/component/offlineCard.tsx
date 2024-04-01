@@ -36,9 +36,9 @@ const OfflineCard: React.FC<CardSfProps> = ({
         switch (true) {
             case community === "saltyeu":
                 return 'https://saltyeu.challonge.com/';
-            case community === "Saltmineleague":
+            case community === "Saltmine League":
                 return "https://challonge.com/communities/saltmineleague";
-            case community === "C2C":
+            case community === "Corner2Corner":
                 return "https://challonge.com/communities/C2C";
             case community === "2BeCommUnity":
                 return "https://challonge.com/communities/2BeCommUnity";
