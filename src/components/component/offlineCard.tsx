@@ -17,9 +17,9 @@ const OfflineCard: React.FC<CardSfProps> = ({
         switch (true) {
             case community === "saltyeu":
                 return '/salty.png';
-            case community === "Saltmineleague":
+            case community === "Saltmine League":
                 return '/sml.png';
-            case community === "C2C":
+            case community === "Corner2Corner":
                 return '/c2c.png';
             case community === "2BeCommUnity":
                 return '/2bcu.jpg';

@@ -37,7 +37,7 @@ const CardSf: React.FC<CardSfProps> = ({
         return '/sml.png';
       case community === 'saltyeu':
         return '/salty.png';
-      case community === 'C2C':
+      case community === 'Corner2Corner':
         return '/c2c.png';
       case community === '2BeCommUnity':
         return '/2bcu.jpg';
